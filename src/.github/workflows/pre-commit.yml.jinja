@@ -15,10 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-{%- if 10 < odoo_version < 13 %}
-        with:
-          python-version: "3.6"
-{%- elif odoo_version <= 10 %}
+{%- if odoo_version <= 10 %}
         with:
           python-version: "2.7"
 {%- endif %}
