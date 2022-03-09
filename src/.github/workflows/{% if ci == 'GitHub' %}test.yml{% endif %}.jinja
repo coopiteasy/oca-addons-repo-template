@@ -11,14 +11,6 @@ on:
 
 {%
 set IMAGES = {
-  "odoo": {
-    15.0: "ghcr.io/oca/oca-ci/py3.8-odoo15.0:latest",
-    14.0: "ghcr.io/oca/oca-ci/py3.6-odoo14.0:latest",
-    13.0: "ghcr.io/oca/oca-ci/py3.6-odoo13.0:latest",
-    12.0: "ghcr.io/oca/oca-ci/py3.6-odoo12.0:latest",
-    11.0: "ghcr.io/oca/oca-ci/py3.5-odoo11.0:latest",
-    10.0: "ghcr.io/oca/oca-ci/py2.7-odoo10.0:latest",
-  },
   "ocb": {
     15.0: "ghcr.io/oca/oca-ci/py3.8-ocb15.0:latest",
     14.0: "ghcr.io/oca/oca-ci/py3.6-ocb14.0:latest",
@@ -40,28 +32,19 @@ jobs:
         {%- if rebel_module_groups %}
         include:
         {%- for group in rebel_module_groups %}
-          - container: {{ IMAGES["odoo"][odoo_version] }}
-            include: "{{ group }}"
-            makepot: "true"
-            name: test with Odoo
           - container: {{ IMAGES["ocb"][odoo_version] }}
             include: "{{ group }}"
             name: test with OCB
         {%- endfor %}
-          - container: {{ IMAGES["odoo"][odoo_version] }}
-            exclude: "{{ rebel_module_groups|join(',') }}"
-            makepot: "true"
-            name: test with Odoo
           - container: {{ IMAGES["ocb"][odoo_version] }}
             exclude: "{{ rebel_module_groups|join(',') }}"
+            makepot: "true"
             name: test with OCB
         {%- else %}
         {#- If all modules can get along, we test and generate .pot all at once #}
         include:
-          - container: {{ IMAGES["odoo"][odoo_version] }}
-            makepot: "true"
-            name: test with Odoo
           - container: {{ IMAGES["ocb"][odoo_version] }}
+            makepot: "true"
             name: test with OCB
         {%- endif %}
     services:
