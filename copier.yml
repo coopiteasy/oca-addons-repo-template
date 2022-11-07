@@ -20,7 +20,7 @@ _migrations:
 
 odoo_version:
   type: float
-  default: 15.0
+  default: 16.0
   choices:
     - 10.0
     - 11.0
@@ -28,6 +28,7 @@ odoo_version:
     - 13.0
     - 14.0
     - 15.0
+    - 16.0
   help: Which Odoo version are we deploying in this branch?
 
 org_slug:
@@ -69,7 +70,7 @@ repo_description:
 
 ci:
   type: str
-  default: Travis
+  default: GitHub
   choices:
     - Travis
     - GitHub
@@ -84,6 +85,7 @@ travis_apt_sources:
     https://github.com/travis-ci/apt-source-safelist/blob/master/ubuntu.json.
 
     Example: [heroku, mono]
+  when: &ci_is_travis "{{ ci == 'Travis' }}"
 
 travis_apt_packages:
   type: yaml
@@ -92,15 +94,16 @@ travis_apt_packages:
     Do you need extra apt packages in Travis? Add them here as a YAML list.
 
     Example: [docker, vim]
+  when: *ci_is_travis
 
 dependency_installation_mode:
-  default: OCA
+  default: PIP
   type: str
   choices:
     - OCA
     - PIP
-  help:
-    Choose how to install module dependencies. Right now, "PIP" mode is experimental.
+  help: Choose how to install module dependencies.
+  when: *ci_is_travis
 
 generate_requirements_txt:
   default: yes
@@ -127,3 +130,32 @@ include_wkhtmltopdf:
   help:
     Do you need to install wkhtmltopdf? Usually only needed if you're going to test PDF
     report generation.
+
+github_enforce_dev_status_compatibility:
+  type: bool
+  default: yes
+  help: GitHub action checks the minimum development status?
+  when: &ci_is_github "{{ ci == 'GitHub' }}"
+
+github_check_license:
+  type: bool
+  default: yes
+  help: GitHub action checks the manifest license?
+  when: *ci_is_github
+
+github_enable_codecov:
+  type: bool
+  default: yes
+  help: GitHub action runs codecov/codecov-action?
+  when: *ci_is_github
+
+github_enable_makepot:
+  type: bool
+  default: yes
+  help: GitHub action updates .pot files?
+  when: *ci_is_github
+
+github_enable_stale_action:
+  type: bool
+  default: yes
+  help: Create GitHub 'stale' action?
