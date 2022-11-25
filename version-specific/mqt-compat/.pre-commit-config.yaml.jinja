@@ -119,19 +119,15 @@ repos:
         language_version: python{% if odoo_version < 11 %}2{% else %}3{% endif %}
         name: flake8 excluding __init__.py
         exclude: __init__\.py
-  - repo: https://github.com/PyCQA/pylint
-    rev: v2.11.1
+  - repo: https://github.com/OCA/pylint-odoo
+    rev: 7.0.2
     hooks:
-      - id: pylint
+      - id: pylint_odoo
         name: pylint with optional checks
         args:
           - --rcfile=.pylintrc
           - --exit-zero
         verbose: true
-        additional_dependencies: &pylint_deps
-          - pylint-odoo==7.0.2
-      - id: pylint
-        name: pylint with mandatory checks
+      - id: pylint_odoo
         args:
           - --rcfile=.pylintrc-mandatory
-        additional_dependencies: *pylint_deps
