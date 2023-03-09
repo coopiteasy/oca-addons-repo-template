@@ -15,7 +15,7 @@ exclude: |
   # You don't usually want a bot to modify your legal texts
   (LICENSE.*|COPYING.*)
 default_language_version:
-  python: python3
+  python: python3.6
 repos:
   - repo: local
     hooks:
@@ -116,7 +116,9 @@ repos:
     rev: v3.7.9
     hooks:
       - id: flake8
-        language_version: python{% if odoo_version < 11 %}2{% else %}3{% endif %}
+        {%- if odoo_version <= 10 %}
+        language_version: python2
+        {%- endif %}
         name: flake8 excluding __init__.py
         exclude: __init__\.py
   - repo: https://github.com/OCA/pylint-odoo
