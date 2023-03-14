@@ -45,9 +45,10 @@ repos:
           - --remove-duplicate-keys
           - --remove-unused-variables
   - repo: https://github.com/psf/black
-    rev: 19.10b0
+    rev: 20.8b1
     hooks:
       - id: black
+        additional_dependencies: ["click<8.1.0"]
         # fixes a bug because upstream sets this to `python3`
         language_version: python3.6
   - repo: https://github.com/pre-commit/mirrors-prettier
