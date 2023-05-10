@@ -37,21 +37,44 @@ jobs:
         {%- if rebel_module_groups %}
         include:
         {%- for group in rebel_module_groups %}
+            {%- if odoo_test_flavor in ["Odoo", "Both"] %}
+          - container: {{ IMAGES["odoo"][odoo_version] }}
+            include: "{{ group }}"
+            name: test with Odoo
+            {%- endif %}
+            {%- if odoo_test_flavor in ["OCB", "Both"] %}
           - container: {{ IMAGES["ocb"][odoo_version] }}
             include: "{{ group }}"
             makepot: "true"
             name: test with OCB
+            {%- endif %}
+            makepot: "{{ github_enable_makepot | bool | lower }}"
         {%- endfor %}
+            {%- if odoo_test_flavor in ["Odoo", "Both"] %}
+          - container: {{ IMAGES["odoo"][odoo_version] }}
+            exclude: "{{ rebel_module_groups|join(',') }}"
+            name: test with Odoo
+            {%- endif %}
+            {%- if odoo_test_flavor in ["OCB", "Both"] %}
           - container: {{ IMAGES["ocb"][odoo_version] }}
             exclude: "{{ rebel_module_groups|join(',') }}"
             makepot: "true"
             name: test with OCB
+            {%- endif %}
+            makepot: "{{ github_enable_makepot | bool | lower }}"
         {%- else %}
         {#- If all modules can get along, we test and generate .pot all at once #}
         include:
+            {%- if odoo_test_flavor in ["Odoo", "Both"] %}
+          - container: {{ IMAGES["odoo"][odoo_version] }}
+            name: test with Odoo
+            {%- endif %}
+            {%- if odoo_test_flavor in ["OCB", "Both"] %}
           - container: {{ IMAGES["ocb"][odoo_version] }}
             makepot: "true"
             name: test with OCB
+            {%- endif %}
+            makepot: "{{ github_enable_makepot | bool | lower }}"
         {%- endif %}
     services:
       postgres:
