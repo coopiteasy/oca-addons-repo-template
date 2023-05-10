@@ -45,7 +45,6 @@ jobs:
             {%- if odoo_test_flavor in ["OCB", "Both"] %}
           - container: {{ IMAGES["ocb"][odoo_version] }}
             include: "{{ group }}"
-            makepot: "true"
             name: test with OCB
             {%- endif %}
             makepot: "{{ github_enable_makepot | bool | lower }}"
@@ -58,7 +57,6 @@ jobs:
             {%- if odoo_test_flavor in ["OCB", "Both"] %}
           - container: {{ IMAGES["ocb"][odoo_version] }}
             exclude: "{{ rebel_module_groups|join(',') }}"
-            makepot: "true"
             name: test with OCB
             {%- endif %}
             makepot: "{{ github_enable_makepot | bool | lower }}"
@@ -71,7 +69,6 @@ jobs:
             {%- endif %}
             {%- if odoo_test_flavor in ["OCB", "Both"] %}
           - container: {{ IMAGES["ocb"][odoo_version] }}
-            makepot: "true"
             name: test with OCB
             {%- endif %}
             makepot: "{{ github_enable_makepot | bool | lower }}"
