@@ -3,6 +3,11 @@
 This is a template created to make easier the task of maintaining OCA addon
 repositories.
 
+Note: This is a fork by Coop IT Easy. There may be mentions to the OCA here and
+elsewhere in this repository that are not reflective of reality. The changes are
+maintained as a small set of commits that can be rebased on top of the main OCA
+branch occasionally.
+
 ## Why?
 
 We have dozens of repos. Most of them look the same, and most of them need
@@ -26,7 +31,7 @@ pipx install copier
 pipx install pre-commit
 pipx ensurepath
 # Clone this template and answer its questions
-copier copy https://github.com/OCA/oca-addons-repo-template.git some-repo
+copier copy --UNSAFE https://github.com/OCA/oca-addons-repo-template.git some-repo
 # Commit that
 cd some-repo
 git add .
@@ -40,7 +45,7 @@ Quick answer to update a repo:
 ```bash
 # Update the repo
 cd some-repo
-copier update
+copier update --UNSAFE
 # Reformat updated files
 pre-commit run
 # Commit update
@@ -57,13 +62,14 @@ Go read [our contribution guideline](CONTRIBUTING.md).
 
 This template allows to bootstrap and update addon repositories for these Odoo versions:
 
-- 10.0
 - 11.0
 - 12.0
 - 13.0
 - 14.0
 - 15.0
 - 16.0
+- 17.0
+- 18.0
 
 Future versions will be added as they are released. Past versions could be added as long
 as they don't break existing branches.
