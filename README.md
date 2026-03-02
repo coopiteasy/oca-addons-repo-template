@@ -3,6 +3,11 @@
 This is a template created to make easier the task of maintaining OCA addon
 repositories.
 
+Note: This is a fork by Coop IT Easy. There may be mentions to the OCA here and
+elsewhere in this repository that are not reflective of reality. The changes are
+maintained as a small set of commits that can be rebased on top of the main OCA
+branch occasionally.
+
 ## Why?
 
 We have dozens of repos. Most of them look the same, and most of them need
